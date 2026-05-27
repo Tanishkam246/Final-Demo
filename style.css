@@ -88,7 +88,7 @@ a {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: radial-gradient(circle at center, #ffffff 0%, #edf0f5 100%);
+    background: radial-gradient(circle at center, #2a2a30 0%, #121215 100%);
     z-index: 99999;
     display: flex;
     justify-content: center;
@@ -212,7 +212,7 @@ a {
 
 .orbital-ring {
     position: absolute;
-    border: 1px dashed rgba(0, 0, 0, 0.08);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
     border-radius: 50%;
 }
 
@@ -249,7 +249,7 @@ a {
 .loading-bar-wrapper {
     width: 100%;
     height: 2px;
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 2px;
     margin-bottom: 0.6rem;
     position: relative;
@@ -268,7 +268,7 @@ a {
     font-size: 1.5rem;
     font-weight: 400;
     letter-spacing: 0.1rem;
-    color: var(--crystal-white);
+    color: #ffffff;
 }
 
 .pct {
@@ -280,7 +280,7 @@ a {
     font-size: 0.65rem;
     letter-spacing: 0.25rem;
     text-transform: uppercase;
-    color: var(--metallic-silver);
+    color: rgba(255, 255, 255, 0.65);
     opacity: 0.8;
     margin-top: 0.4rem;
 }
