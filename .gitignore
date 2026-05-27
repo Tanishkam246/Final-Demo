@@ -4,8 +4,8 @@ node_modules/
 # Build outputs
 dist/
 
-# Netlify directory
-.netlify/
+# Vercel directory
+.vercel/
 
 # Local env files
 .env
