@@ -138,7 +138,21 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDefaultModel();
     precacheAllJewelry();
 
-    // Listen for auth state broadcast from auth.js
+    // ── INIT: Read auth state directly from sessionStorage ──────────────────
+    // auth.js fires nexora_auth_change during its own DOMContentLoaded, which
+    // runs BEFORE this listener is registered (auth.js appears first in HTML).
+    // Reading sessionStorage here ensures we never miss the initial login state.
+    const savedUser = sessionStorage.getItem('nexora_mock_user');
+    if (savedUser) {
+        TryOnState.isAuthenticated = true;
+        const canvas = document.getElementById('tryon-canvas');
+        if (canvas) {
+            canvas.style.cursor = 'grab';
+            canvas.style.pointerEvents = 'auto';
+        }
+    }
+
+    // Listen for subsequent login / logout changes from auth.js
     window.addEventListener('nexora_auth_change', (e) => {
         TryOnState.isAuthenticated = !!e.detail?.loggedIn;
         const canvas = document.getElementById('tryon-canvas');
