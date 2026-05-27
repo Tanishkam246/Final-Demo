@@ -741,36 +741,159 @@ button, .btn-primary, .btn-secondary, .btn-glass, .btn-outline-ananta {
 .hero-section {
     min-height: 100vh;
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr; /* text left-aligned, right visual column is empty space */
+    grid-template-columns: 1.2fr 0.8fr;
     align-items: center;
     padding: 7rem 8% 3rem;
     position: relative;
-    background-image: url('assets/hero_bg_diamond.png');
-    background-size: cover;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
     color: #ffffff;
     overflow: hidden;
-    transition: background-position 0.25s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.hero-section::before {
-    content: '';
+/* ---- Slideshow background layers ---- */
+.hero-bg-slide {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(15, 12, 22, 0.88) 0%, rgba(15, 12, 22, 0.48) 55%, rgba(15, 12, 22, 0.15) 100%);
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1.04);
+    animation: hero-ken-burns 8s ease-in-out infinite alternate;
+    will-change: opacity, transform;
+}
+.hero-bg-slide.active-slide {
+    opacity: 1;
+}
+.slide-1 { background-image: url('assets/hero_bg_diamond.png'); animation-delay: 0s; }
+.slide-2 { background-image: url('assets/hero_bg_necklace.png'); animation-delay: -2.6s; }
+.slide-3 { background-image: url('assets/hero_bg_ruby.png'); animation-delay: -5.2s; }
+
+@keyframes hero-ken-burns {
+    0%   { transform: scale(1.04) translate(0%, 0%); }
+    100% { transform: scale(1.10) translate(-1%, -1%); }
+}
+
+/* ---- Overlay layers ---- */
+.hero-overlay-base {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        115deg,
+        rgba(8, 4, 18, 0.90) 0%,
+        rgba(12, 6, 25, 0.72) 40%,
+        rgba(18, 8, 30, 0.40) 70%,
+        rgba(8, 4, 18, 0.65) 100%
+    );
     z-index: 1;
 }
+.hero-overlay-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, transparent 35%, rgba(4, 2, 12, 0.65) 100%);
+    z-index: 2;
+}
+.hero-overlay-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(212, 175, 55, 0.03) 30%,
+        rgba(212, 175, 55, 0.06) 50%,
+        transparent 70%
+    );
+    background-size: 200% 200%;
+    animation: shimmer-sweep 6s ease-in-out infinite;
+    z-index: 3;
+    pointer-events: none;
+}
+@keyframes shimmer-sweep {
+    0%, 100% { background-position: 0% 0%; }
+    50%       { background-position: 100% 100%; }
+}
 
+/* ---- Floating gold dust particles ---- */
+.hero-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    overflow: hidden;
+}
+.hero-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.9), rgba(212, 175, 55, 0.1));
+    animation: particle-float linear infinite;
+}
+/* Stagger each particle with unique position, size, speed */
+.p1  { width:3px;  height:3px;  left:8%;   bottom:-10%; animation-duration:9s;  animation-delay:0s;   opacity:0.55; }
+.p2  { width:2px;  height:2px;  left:15%;  bottom:-10%; animation-duration:12s; animation-delay:1.2s; opacity:0.4;  }
+.p3  { width:4px;  height:4px;  left:24%;  bottom:-10%; animation-duration:10s; animation-delay:0.4s; opacity:0.6;  }
+.p4  { width:2px;  height:2px;  left:35%;  bottom:-10%; animation-duration:14s; animation-delay:2.5s; opacity:0.35; }
+.p5  { width:3px;  height:3px;  left:47%;  bottom:-10%; animation-duration:11s; animation-delay:0.8s; opacity:0.5;  }
+.p6  { width:2px;  height:2px;  left:55%;  bottom:-10%; animation-duration:8s;  animation-delay:3.1s; opacity:0.45; }
+.p7  { width:5px;  height:5px;  left:63%;  bottom:-10%; animation-duration:13s; animation-delay:1.6s; opacity:0.3;  }
+.p8  { width:2px;  height:2px;  left:72%;  bottom:-10%; animation-duration:9s;  animation-delay:0.2s; opacity:0.55; }
+.p9  { width:3px;  height:3px;  left:80%;  bottom:-10%; animation-duration:11s; animation-delay:2.8s; opacity:0.4;  }
+.p10 { width:2px;  height:2px;  left:88%;  bottom:-10%; animation-duration:15s; animation-delay:1s;   opacity:0.35; }
+.p11 { width:4px;  height:4px;  left:20%;  bottom:-10%; animation-duration:10s; animation-delay:4s;   opacity:0.5;  }
+.p12 { width:2px;  height:2px;  left:91%;  bottom:-10%; animation-duration:12s; animation-delay:0.6s; opacity:0.45; }
+
+@keyframes particle-float {
+    0%   { transform: translateY(0) translateX(0)    scale(1);   opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-110vh) translateX(30px) scale(0.4); opacity: 0; }
+}
+
+/* ---- Diagonal accent lines ---- */
+.hero-accent-lines {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    overflow: hidden;
+}
+.accent-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,175,55,0.25), transparent);
+    animation: accent-slide 8s ease-in-out infinite;
+}
+.al-1 { width: 60%;  top: 22%;  left: -10%; animation-delay: 0s;   transform: rotate(-8deg); }
+.al-2 { width: 40%;  top: 55%;  right:-5%;  animation-delay: 2.5s; transform: rotate(-8deg); }
+.al-3 { width: 50%;  top: 75%;  left: 5%;   animation-delay: 5s;   transform: rotate(-8deg); }
+
+@keyframes accent-slide {
+    0%, 100% { opacity: 0;   transform: rotate(-8deg) translateX(-5%); }
+    30%, 70% { opacity: 1;   transform: rotate(-8deg) translateX(0%); }
+}
+
+/* ---- Jewel corner decoration ---- */
+.hero-jewel-corner {
+    position: absolute;
+    top: 6rem;
+    right: 6%;
+    z-index: 5;
+    opacity: 0.7;
+    pointer-events: none;
+    animation: jewel-pulse 4s ease-in-out infinite;
+}
+@keyframes jewel-pulse {
+    0%, 100% { transform: scale(1) rotate(0deg);   opacity: 0.7; }
+    50%       { transform: scale(1.08) rotate(15deg); opacity: 1;   }
+}
+
+/* ---- Content always above overlays ---- */
 .hero-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    z-index: 2; /* Content above dark gradient overlay */
+    z-index: 10;
 }
+
 
 .hero-badge {
     font-family: var(--font-heading);
@@ -941,7 +1064,90 @@ button, .btn-primary, .btn-secondary, .btn-glass, .btn-outline-ananta {
     text-transform: uppercase;
 }
 
+/* ---- Hero stats strip ---- */
+.hero-stats-strip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 1.4rem 8%;
+    background: linear-gradient(90deg, rgba(8,4,18,0.85) 0%, rgba(10,5,22,0.9) 50%, rgba(8,4,18,0.85) 100%);
+    border-top: 1px solid rgba(212,175,55,0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.hero-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0 2.5rem;
+    flex: 1;
+    max-width: 180px;
+}
+.stat-num {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08rem;
+    background: linear-gradient(135deg, #f3e5ab, #d4af37);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+}
+.stat-plus {
+    font-size: 1rem;
+}
+.stat-label {
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    letter-spacing: 0.18rem;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+}
+.hero-stat-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(212,175,55,0.2);
+    flex-shrink: 0;
+}
+
+/* ---- Hero slide dot indicators ---- */
+.hero-slide-dots {
+    position: absolute;
+    right: 3%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    z-index: 10;
+}
+.slide-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    border: 1px solid rgba(212,175,55,0.4);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    padding: 0;
+}
+.slide-dot.active {
+    background: rgba(212,175,55,0.9);
+    border-color: rgba(212,175,55,0.9);
+    transform: scale(1.4);
+    box-shadow: 0 0 8px rgba(212,175,55,0.5);
+}
+
 /* Scroll Hint */
+
 .scroll-hint {
     position: absolute;
     bottom: 1.5rem;
@@ -950,6 +1156,7 @@ button, .btn-primary, .btn-secondary, .btn-glass, .btn-outline-ananta {
     flex-direction: column;
     gap: 0.4rem;
     opacity: 0.6;
+    z-index: 10;
 }
 
 .scroll-text {
