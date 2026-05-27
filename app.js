@@ -59,33 +59,6 @@ function initPreloader() {
     const loadingNum = document.getElementById("loading-num");
     const loadingBar = document.querySelector(".loading-bar");
     const statusText = document.querySelector(".loading-status");
-    
-    const canvas = document.getElementById("loader-canvas");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    
-    // Fit canvas
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    window.addEventListener("resize", () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-
-    // Create particles inside preloader (light gold & soft lavender theme)
-    const loaderParticles = [];
-    for (let i = 0; i < 40; i++) {
-        loaderParticles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: 0.6 + Math.random() * 1.4,
-            speedY: -0.15 - Math.random() * 0.35,
-            speedX: (Math.random() - 0.5) * 0.2,
-            alpha: 0.15 + Math.random() * 0.45,
-            color: Math.random() > 0.4 ? '#701ab8' : '#9e7f27'
-        });
-    }
 
     const statuses = [
         "LOAD MATRIX",
@@ -96,32 +69,6 @@ function initPreloader() {
     ];
 
     let progress = 0;
-    
-    function animateLoaderCanvas() {
-        if (window.NEXORA.loadingComplete) return;
-        
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw background dots
-        loaderParticles.forEach(p => {
-            p.y += p.speedY;
-            p.x += p.speedX;
-            
-            if (p.y < 0) {
-                p.y = canvas.height;
-                p.x = Math.random() * canvas.width;
-            }
-            
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.globalAlpha = p.alpha;
-            ctx.fill();
-        });
-        
-        requestAnimationFrame(animateLoaderCanvas);
-    }
-    requestAnimationFrame(animateLoaderCanvas);
 
     // Incremental progress loop
     const progressTimer = setInterval(() => {
@@ -131,78 +78,28 @@ function initPreloader() {
             clearInterval(progressTimer);
             triggerLaunch();
         }
-        
+
         loadingNum.innerText = progress;
         loadingBar.style.width = `${progress}%`;
-        
+
         const statusIdx = Math.floor((progress / 100) * statuses.length);
         if (statusIdx < statuses.length) {
             statusText.innerText = statuses[statusIdx];
         }
     }, 30);
 
-    // Launch action triggered on 100%
+    // Launch action triggered on 100% — smooth fade-out preserved
     function triggerLaunch() {
         window.NEXORA.loadingComplete = true;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const explosionParticles = [];
-        
-        for (let i = 0; i < 120; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = 2 + Math.random() * 8;
-            explosionParticles.push({
-                x: centerX,
-                y: centerY,
-                vx: Math.cos(angle) * velocity,
-                vy: Math.sin(angle) * velocity,
-                size: 1 + Math.random() * 2,
-                alpha: 1,
-                color: Math.random() > 0.4 ? '#701ab8' : '#9e7f27'
+        loader.classList.add("fade-out");
+        app.classList.remove("hidden");
+
+        // Trigger entry reveals in hero section matching lens-blur transition
+        setTimeout(() => {
+            document.querySelectorAll("#hero .animate-reveal").forEach(el => {
+                el.classList.add("active");
             });
-        }
-        
-        let frames = 0;
-        function animateExplosion() {
-            if (frames > 50) {
-                // Smooth lens-blur dissolve begins
-                loader.classList.add("fade-out");
-                app.classList.remove("hidden");
-                
-                // Trigger entry reveals in hero section matching lens-blur transition
-                setTimeout(() => {
-                    document.querySelectorAll("#hero .animate-reveal").forEach(el => {
-                        el.classList.add("active");
-                    });
-                }, 600);
-                return;
-            }
-            
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            explosionParticles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vx *= 0.94;
-                p.vy *= 0.94;
-                p.alpha -= 0.02;
-                
-                if (p.alpha > 0) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fillStyle = p.color;
-                    ctx.globalAlpha = p.alpha;
-                    ctx.fill();
-                }
-            });
-            
-            frames++;
-            requestAnimationFrame(animateExplosion);
-        }
-        animateExplosion();
+        }, 600);
     }
 }
 
