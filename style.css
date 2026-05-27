@@ -749,29 +749,23 @@ button, .btn-primary, .btn-secondary, .btn-glass, .btn-outline-ananta {
     overflow: hidden;
 }
 
-/* ---- Slideshow background layers ---- */
-.hero-bg-slide {
+/* ---- Hero single background ---- */
+.hero-bg-single {
     position: absolute;
     inset: 0;
+    background-image: url('assets/nexora_hero_bg.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0;
-    transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(1.04);
-    animation: hero-ken-burns 8s ease-in-out infinite alternate;
-    will-change: opacity, transform;
+    transform: scale(1.02);
+    animation: hero-ken-burns-single 20s ease-in-out infinite alternate;
+    will-change: transform;
+    z-index: 0;
 }
-.hero-bg-slide.active-slide {
-    opacity: 1;
-}
-.slide-1 { background-image: url('assets/hero_bg_diamond.png'); animation-delay: 0s; }
-.slide-2 { background-image: url('assets/hero_bg_necklace.png'); animation-delay: -2.6s; }
-.slide-3 { background-image: url('assets/hero_bg_ruby.png'); animation-delay: -5.2s; }
 
-@keyframes hero-ken-burns {
-    0%   { transform: scale(1.04) translate(0%, 0%); }
-    100% { transform: scale(1.10) translate(-1%, -1%); }
+@keyframes hero-ken-burns-single {
+    0%   { transform: scale(1.02); }
+    100% { transform: scale(1.08); }
 }
 
 /* ---- Overlay layers ---- */

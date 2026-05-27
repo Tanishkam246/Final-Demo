@@ -12,7 +12,6 @@ window.NEXORA = {
 let lenis;
 document.addEventListener("DOMContentLoaded", () => {
     initPreloader();
-    initHeroSlideshow();
     initBackgroundParticles();
     initScrollReveal();
     initHeaderScroll();
@@ -20,40 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initLenisScroll();
 });
 
-/* ==========================================
-   0. HERO BACKGROUND SLIDESHOW
-   ========================================== */
-function initHeroSlideshow() {
-    const slides = document.querySelectorAll(".hero-bg-slide");
-    const dots   = document.querySelectorAll(".slide-dot");
-    if (!slides.length) return;
-
-    let current = 0;
-    const DURATION = 5000; // ms per slide
-
-    function goTo(index) {
-        slides[current].classList.remove("active-slide");
-        dots[current]?.classList.remove("active");
-        current = (index + slides.length) % slides.length;
-        slides[current].classList.add("active-slide");
-        dots[current]?.classList.add("active");
-    }
-
-    // Activate first slide immediately
-    goTo(0);
-
-    // Auto-advance
-    let timer = setInterval(() => goTo(current + 1), DURATION);
-
-    // Dot click controls
-    dots.forEach((dot, i) => {
-        dot.addEventListener("click", () => {
-            clearInterval(timer);
-            goTo(i);
-            timer = setInterval(() => goTo(current + 1), DURATION);
-        });
-    });
-}
 
 
 function initLenisScroll() {
