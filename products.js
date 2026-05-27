@@ -132,7 +132,7 @@ function renderShowcase() {
                 </div>
 
                 <div class="card-bottom">
-                    <span class="card-price">$${prod.price.toLocaleString()}</span>
+                    <span class="card-price">₹${prod.price.toLocaleString()}</span>
                     <div class="card-actions">
                         <button class="btn-card-action btn-add-bag">Bag</button>
                         <button class="btn-card-action btn-try">Try-On</button>
@@ -329,7 +329,7 @@ function renderCartDrawer() {
 
     if (CoutureBag.length === 0) {
         container.innerHTML = `<div class="drawer-empty-msg">Your Bag is empty</div>`;
-        if (subtotalText) subtotalText.innerText = "$0";
+        if (subtotalText) subtotalText.innerText = "₹0";
         return;
     }
 
@@ -341,7 +341,7 @@ function renderCartDrawer() {
                 <img src="${item.image}" alt="${item.name}" class="drawer-item-img" />
                 <div class="drawer-item-details">
                     <span class="drawer-item-name">${item.name}</span>
-                    <span class="drawer-item-price">$${item.price.toLocaleString()}</span>
+                    <span class="drawer-item-price">₹${item.price.toLocaleString()}</span>
                 </div>
                 <button class="btn-remove-item" data-id="${item.id}" aria-label="Remove item">
                     <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -350,7 +350,7 @@ function renderCartDrawer() {
         `;
     }).join("");
 
-    if (subtotalText) subtotalText.innerText = `$${subtotal.toLocaleString()}`;
+    if (subtotalText) subtotalText.innerText = `₹${subtotal.toLocaleString()}`;
 
     container.querySelectorAll(".btn-remove-item").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -375,7 +375,7 @@ function renderWishlistDrawer() {
                 <img src="${item.image}" alt="${item.name}" class="drawer-item-img" />
                 <div class="drawer-item-details">
                     <span class="drawer-item-name">${item.name}</span>
-                    <span class="drawer-item-price">$${item.price.toLocaleString()}</span>
+                    <span class="drawer-item-price">₹${item.price.toLocaleString()}</span>
                 </div>
                 <button class="btn-remove-item" data-id="${item.id}" aria-label="Remove item" style="color: var(--gold-glow)">
                     <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -420,7 +420,7 @@ function openProductModal(product) {
 
     document.getElementById("modal-product-img").src = product.image;
     document.getElementById("modal-product-name").innerText = product.name;
-    document.getElementById("modal-product-price").innerText = `$${product.price.toLocaleString()}`;
+    document.getElementById("modal-product-price").innerText = `₹${product.price.toLocaleString()}`;
     document.getElementById("modal-product-desc").innerText = product.desc;
     document.getElementById("modal-product-stone").innerText = product.stone;
     document.getElementById("modal-product-carat").innerText = product.carat;

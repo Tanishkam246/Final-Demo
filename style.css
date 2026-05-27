@@ -449,6 +449,10 @@ button, .btn-primary, .btn-secondary, .btn-glass, .btn-outline-ananta {
     text-transform: uppercase;
 }
 
+#specialities .sec-title {
+    color: #ffffff;
+}
+
 .sec-desc {
     max-width: 600px;
     font-size: 0.95rem;
