@@ -755,17 +755,9 @@ button, .btn-primary, .btn-secondary, .btn-glass, .btn-outline-ananta {
     inset: 0;
     background-image: url('assets/nexora_hero_bg.png');
     background-size: cover;
-    background-position: center;
+    background-position: right center;
     background-repeat: no-repeat;
-    transform: scale(1.02);
-    animation: hero-ken-burns-single 20s ease-in-out infinite alternate;
-    will-change: transform;
     z-index: 0;
-}
-
-@keyframes hero-ken-burns-single {
-    0%   { transform: scale(1.02); }
-    100% { transform: scale(1.08); }
 }
 
 /* ---- Overlay layers ---- */
